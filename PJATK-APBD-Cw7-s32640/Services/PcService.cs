@@ -79,4 +79,21 @@ public class PcService(DatabaseContext databaseContext) : IPcService
             pc.CreatedAt,
             pc.Stock);
     }
+
+    public async Task UpdatePcAsync(int id, UpdatePcRequest request, CancellationToken cancellationToken)
+    {
+        int affectedRows = await databaseContext.PCs.Where(pc => pc.Id == id)
+            .ExecuteUpdateAsync(setters => setters
+                .SetProperty(pc => pc.Name, request.Name)
+                .SetProperty(pc => pc.Weight, request.Weight)
+                .SetProperty(pc => pc.Warranty, request.Warranty)
+                .SetProperty(pc => pc.CreatedAt, request.CreatedAt)
+                .SetProperty(pc => pc.Stock, request.Stock),
+                cancellationToken);
+
+        if (affectedRows == 0)
+        {
+            throw new NotFoundException($"PC with id {id} not found");
+        }
+    }
 }
