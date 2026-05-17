@@ -8,4 +8,5 @@ public interface IPcService
     Task <PcDetailsResponse> GetByIdAsync(int id, CancellationToken token);
     Task <PcResponse> AddPcAsync(CreatePcRequest request, CancellationToken cancellationToken);
     Task UpdatePcAsync(int id, UpdatePcRequest request, CancellationToken cancellationToken);
+    Task DeletePcAsync(int id, CancellationToken token);
 }

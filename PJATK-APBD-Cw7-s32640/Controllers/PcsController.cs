@@ -50,5 +50,18 @@ public class PcsController(IPcService service) : ControllerBase
         }
         
     }
-    
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await service.DeletePcAsync(id, cancellationToken);
+            return NoContent();
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }
