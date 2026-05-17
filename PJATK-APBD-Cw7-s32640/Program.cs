@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PJATK_APBD_Cw7_sxxxxx.Infrastrucutre;
+using PJATK_APBD_Cw7_sxxxxx.Services;
 
 namespace PJATK_APBD_Cw7_sxxxxx;
 
@@ -11,6 +12,8 @@ public class Program
         
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
+        
+        builder.Services.AddScoped<IPcService, PcService>();
         
         builder.Services.AddDbContext<DatabaseContext>(opt =>
         {
@@ -29,8 +32,7 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
-
+        
         app.MapControllers();
 
         app.Run();
