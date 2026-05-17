@@ -6,4 +6,5 @@ public interface IPcService
 {
     Task<IEnumerable<PcResponse>> GetAllAsync(CancellationToken token);
     Task <PcDetailsResponse> GetByIdAsync(int id, CancellationToken token);
+    Task <PcResponse> AddPcAsync(CreatePcRequest request, CancellationToken cancellationToken);
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PJATK_APBD_Cw7_sxxxxx.DTOs;
 using PJATK_APBD_Cw7_sxxxxx.Exceptions;
 using PJATK_APBD_Cw7_sxxxxx.Services;
 
@@ -13,8 +14,9 @@ public class PcsController(IPcService service) : ControllerBase
     {
         return Ok(await service.GetAllAsync(token));
     }
-    [HttpGet("{id:int}/components")]
-    public async Task<IActionResult> GetByIdAsync([FromRoute]int id, CancellationToken token)
+    
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById([FromRoute]int id, CancellationToken token)
     {
         try
         {
@@ -25,5 +27,12 @@ public class PcsController(IPcService service) : ControllerBase
             return NotFound(e.Message);
         }
         
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] CreatePcRequest request, CancellationToken cancellationToken)
+    {
+        var pc = await service.AddPcAsync(request, cancellationToken);
+        return CreatedAtAction(nameof(GetById), new { id = pc.Id }, pc);
     }
 }

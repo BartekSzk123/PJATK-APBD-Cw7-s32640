@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PJATK_APBD_Cw7_sxxxxx.DTOs;
 using PJATK_APBD_Cw7_sxxxxx.Exceptions;
 using PJATK_APBD_Cw7_sxxxxx.Infrastrucutre;
+using PJATK_APBD_Cw7_sxxxxx.Models;
 
 namespace PJATK_APBD_Cw7_sxxxxx.Services;
 
@@ -55,5 +56,27 @@ public class PcService(DatabaseContext databaseContext) : IPcService
                     )).ToList()
                 )).FirstOrDefaultAsync(token) 
                 ?? throw new NotFoundException($"PC with id {id} not found");
+    }
+
+    public async Task<PcResponse> AddPcAsync(CreatePcRequest request, CancellationToken cancellationToken)
+    {
+        var pc = new PC
+        {
+            Name = request.Name,
+            Weight = request.Weight,
+            Warranty = request.Warranty,
+            CreatedAt = request.CreatedAt,
+            Stock = request.Stock
+        };
+
+        databaseContext.Add(pc);
+        await databaseContext.SaveChangesAsync(cancellationToken);
+        return new PcResponse(
+            pc.Id,
+            pc.Name,
+            pc.Weight,
+            pc.Warranty,
+            pc.CreatedAt,
+            pc.Stock);
     }
 }
