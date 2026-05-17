@@ -5,4 +5,5 @@ namespace PJATK_APBD_Cw7_sxxxxx.Services;
 public interface IPcService
 {
     Task<IEnumerable<PcResponse>> GetAllAsync(CancellationToken token);
+    Task <PcDetailsResponse> GetByIdAsync(int id, CancellationToken token);
 }
